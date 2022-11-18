@@ -1,17 +1,16 @@
 import { CustomError, HTTPError } from './error';
 
-describe('Given', () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+describe('Given the class CustomError', () => {
     let error: CustomError;
     beforeEach(() => {
-        error = new HTTPError(400, 'Bad', 'Bad Request');
+        error = new HTTPError(508, 'Loop Detected', 'Infinite loop');
     });
     test('should first', () => {
         expect(error).toBeInstanceOf(Error);
         expect(error).toBeInstanceOf(HTTPError);
-        expect(error).toHaveProperty('statusCode', 400);
-        expect(error).toHaveProperty('statusMessage', 'Bad');
-        expect(error).toHaveProperty('message', 'Bad Request');
+        expect(error).toHaveProperty('statusCode', 508);
+        expect(error).toHaveProperty('statusMessage', 'Loop Detected');
+        expect(error).toHaveProperty('message', 'Infinite loop');
         expect(error).toHaveProperty('name', 'HTTPError');
     });
 });

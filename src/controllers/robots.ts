@@ -1,14 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
-import { Data } from '../repository/repository.js';
-import { Tapa } from '../entities/robot.js';
+import { Data } from '../data/data.js';
+import { Robot } from '../entities/robot.js';
 import { HTTPError } from '../interfaces/error.js';
 
-export class TapaController {
-    constructor(public repository: Data<Tapa>) {}
+export class RobotController {
+    constructor(public repository: Data<Robot>) {}
+
     async getAll(req: Request, resp: Response, next: NextFunction) {
         try {
-            const tapas = await this.repository.getAll();
-            resp.json({ tapas });
+            const robots = await this.repository.getAll();
+            resp.json({ robots });
         } catch (error) {
             const httpError = new HTTPError(
                 503,
@@ -21,8 +22,8 @@ export class TapaController {
 
     async get(req: Request, resp: Response, next: NextFunction) {
         try {
-            const tapa = await this.repository.get(+req.params.id);
-            resp.json({ tapa });
+            const robot = await this.repository.get(+req.params.id);
+            resp.json({ robot });
         } catch (error) {
             next(this.#createHttpError(error as Error));
         }
@@ -30,8 +31,8 @@ export class TapaController {
 
     async post(req: Request, resp: Response, next: NextFunction) {
         try {
-            const tapa = await this.repository.post(req.body);
-            resp.json({ tapa });
+            const robot = await this.repository.post(req.body);
+            resp.json({ robot });
         } catch (error) {
             const httpError = new HTTPError(
                 503,
@@ -44,8 +45,8 @@ export class TapaController {
 
     async patch(req: Request, resp: Response, next: NextFunction) {
         try {
-            const tapa = await this.repository.patch(+req.params.id, req.body);
-            resp.json({ tapa });
+            const robot = await this.repository.patch(+req.params.id, req.body);
+            resp.json({ robot });
         } catch (error) {
             next(this.#createHttpError(error as Error));
         }
@@ -54,25 +55,21 @@ export class TapaController {
     async delete(req: Request, resp: Response, next: NextFunction) {
         try {
             await this.repository.delete(+req.params.id);
-            resp.json({});
+            resp.json({ id: req.params.id });
         } catch (error) {
             next(this.#createHttpError(error as Error));
         }
     }
 
     #createHttpError(error: Error) {
-        if ((error as Error).message === 'Not found id') {
-            const httpError = new HTTPError(
-                404,
-                'Not Found',
-                (error as Error).message
-            );
+        if (error.message === 'Not found id') {
+            const httpError = new HTTPError(404, 'Not Found', error.message);
             return httpError;
         }
         const httpError = new HTTPError(
             503,
             'Service unavailable',
-            (error as Error).message
+            error.message
         );
         return httpError;
     }

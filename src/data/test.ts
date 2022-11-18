@@ -1,3 +1,5 @@
+/*
+
 import mongoose from 'mongoose';
 import { dbConnect } from '../db.conect';
 import { TapaRepository } from './robots.repository';
@@ -70,3 +72,5 @@ describe('Given TapaRespository', () => {
         });
     });
 });
+
+*/

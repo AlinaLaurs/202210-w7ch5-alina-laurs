@@ -1,3 +1,5 @@
+/*
+
 import { NextFunction, Request, Response } from 'express';
 import { TapaRepository } from '../repository/robots.repository';
 import { TapaController } from './robots';
@@ -44,3 +46,5 @@ describe('Given TapaController', () => {
         expect(resp.json).toHaveBeenCalledWith({ tapas: ['mock'] });
     });
 });
+
+*/
