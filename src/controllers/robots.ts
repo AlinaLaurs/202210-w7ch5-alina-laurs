@@ -3,7 +3,7 @@ import { Data } from '../data/data.js';
 import { Robot } from '../entities/robot.js';
 import { HTTPError } from '../interfaces/error.js';
 
-export class RobotController {
+export class RobotsController {
     constructor(public repository: Data<Robot>) {}
 
     async getAll(req: Request, resp: Response, next: NextFunction) {

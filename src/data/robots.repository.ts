@@ -2,7 +2,7 @@ import mongoose, { Schema, model } from 'mongoose';
 import { Robot, ProtoRobot } from '../entities/robot.js';
 import { Data, id } from './data.js';
 
-export class RobotRepository implements Data<Robot> {
+export class RobotsRepository implements Data<Robot> {
     #schema = new Schema({
         name: {
             type: String,
