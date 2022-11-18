@@ -1,19 +1,21 @@
 import mongoose, { Schema, model } from 'mongoose';
-import { Tapa, ProtoTapa } from '../entities/robot.js';
+import { Robot, ProtoRobot } from '../entities/robot.js';
 import { Data, id } from './repository.js';
 
-export class TapaRepository implements Data<Tapa> {
+export class RobotRepository implements Data<Robot> {
     #schema = new Schema({
         name: {
             type: String,
             required: true,
             unique: true,
         },
-        color: String,
-        ingredient: String,
-        alcohol: Boolean,
+        image: String,
+        speed: Number,
+        strength: Number,
+        creationDate: String,
     });
-    #Model = model('Tapa', this.#schema, 'tapas');
+
+    #Model = model('Robot', this.#schema, 'robots');
 
     constructor() {
         this.#schema.set('toJSON', {
@@ -25,31 +27,33 @@ export class TapaRepository implements Data<Tapa> {
         });
     }
 
-    async getAll(): Promise<Array<Tapa>> {
+    async getAll(): Promise<Array<Robot>> {
         return this.#Model.find();
     }
-    async get(id: id): Promise<Tapa> {
+
+    async get(id: id): Promise<Robot> {
         const result = await this.#Model.findById(id);
         if (!result) throw new Error('Not found id');
-        return result as unknown as Tapa;
+        return result as Robot;
     }
 
-    async post(data: ProtoTapa): Promise<Tapa> {
-        const result = await this.#Model.create(data);
-        return result as unknown as Tapa;
+    async post(newRobot: ProtoRobot): Promise<Robot> {
+        const result = await this.#Model.create(newRobot);
+        return result as Robot;
     }
-    async patch(id: id, data: Partial<Tapa>): Promise<Tapa> {
-        const result = await this.#Model.findByIdAndUpdate(id, data, {
+
+    async patch(id: id, updateRobot: Partial<Robot>): Promise<Robot> {
+        const result = await this.#Model.findByIdAndUpdate(id, updateRobot, {
             new: true,
         });
         if (!result) throw new Error('Not found id');
-        return result as unknown as Tapa;
+        return result as Robot;
     }
 
-    async delete(id: id): Promise<void> {
+    async delete(id: id): Promise<{ id: id }> {
         const result = await this.#Model.findByIdAndDelete(id);
         if (result === null) throw new Error('Not found id');
-        return;
+        return { id: id };
     }
 
     #disconnect() {
