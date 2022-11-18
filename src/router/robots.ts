@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { TapaController } from '../controllers/tapas.js';
-import { TapaRepository } from '../data/tapas.repository.js';
+import { RobotsController } from '../controllers/robots.js';
+import { RobotsRepository } from '../repository/robots.repository.js';
 
 export const robotsRouter = Router();
 
-const controller = new TapaController(new TapaRepository());
+const controller = new RobotsController(new RobotsRepository());
 
-tapaRouter.get('/', controller.getAll.bind(controller));
-tapaRouter.get('/:id', controller.get.bind(controller));
-tapaRouter.post('/', controller.post.bind(controller));
-tapaRouter.patch('/:id', controller.patch.bind(controller));
-tapaRouter.delete('/:id', controller.delete.bind(controller));
+robotsRouter.get('/', controller.getAll.bind(controller));
+robotsRouter.get('/:id', controller.get.bind(controller));
+robotsRouter.post('/', controller.post.bind(controller));
+robotsRouter.patch('/:id', controller.patch.bind(controller));
+robotsRouter.delete('/:id', controller.delete.bind(controller));

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { TapaRepository } from '../data/tapas.repository';
-import { TapaController } from './tapas';
+import { TapaRepository } from '../repository/robots.repository';
+import { TapaController } from './robots';
 
 jest.mock('../data/tapas.repository');
 

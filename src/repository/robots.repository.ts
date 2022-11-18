@@ -1,6 +1,6 @@
 import mongoose, { Schema, model } from 'mongoose';
 import { Tapa, ProtoTapa } from '../entities/robot.js';
-import { Data, id } from './data.js';
+import { Data, id } from './repository.js';
 
 export class TapaRepository implements Data<Tapa> {
     #schema = new Schema({

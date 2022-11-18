@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { dbConnect } from '../db.conect';
-import { TapaRepository } from './tapas.repository';
+import { TapaRepository } from './robots.repository';
 
 const mockData = [
     {

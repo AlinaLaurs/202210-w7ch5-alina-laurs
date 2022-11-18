@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { Data } from '../data/data.js';
+import { Data } from '../repository/repository.js';
 import { Tapa } from '../entities/robot.js';
 import { HTTPError } from '../interfaces/error.js';
 
