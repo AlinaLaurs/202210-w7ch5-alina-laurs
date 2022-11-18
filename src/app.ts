@@ -2,29 +2,33 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import { CustomError } from './interfaces/error.js';
-import { tapaRouter } from './router/tapa.js';
+import { robotsRouter } from './router/robots.js';
 
 export const app = express();
+app.disable('x-powered-by');
+
+const corsOptions = {
+    origin: '*',
+};
 
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
-app.get('/', (_req, res) => {
-    res.send('API de tapas').end();
+app.use((req, res, next) => {
+    const origin = req.header('Origin') || '*';
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    next();
 });
 
-app.use('/tapas', tapaRouter);
+app.get('/', (_req, res) => {
+    res.send('API de robots. Escribe «/robots» para ver la API.').end();
+});
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+app.use('/robots', robotsRouter);
+
 app.use(
     (error: CustomError, _req: Request, resp: Response, next: NextFunction) => {
-        console.log(
-            error.name,
-            error.statusCode,
-            error.statusMessage,
-            error.message
-        );
         let status = error.statusCode || 500;
         if (error.name === 'ValidationError') {
             status = 406;

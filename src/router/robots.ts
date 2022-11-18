@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { TapaController } from '../controllers/tapas.js';
 import { TapaRepository } from '../data/tapas.repository.js';
 
-export const tapaRouter = Router();
+export const robotsRouter = Router();
 
 const controller = new TapaController(new TapaRepository());
 
