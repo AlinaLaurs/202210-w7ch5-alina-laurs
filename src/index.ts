@@ -1,12 +1,11 @@
 import http from 'http';
 import { app } from './app.js';
-import * as dotenv from 'dotenv';
-dotenv.config();
 import { CustomError } from './interfaces/error.js';
-import { dbConnect } from './db.conect.js';
+import { dbConnect } from './db.connect.js';
 
 const port = process.env.PORT || 3300;
 const server = http.createServer(app);
+
 server.on('listening', () => {
     const addr = server.address();
     if (addr === null) return;

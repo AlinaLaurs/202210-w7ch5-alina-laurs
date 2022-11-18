@@ -1,4 +1,4 @@
-import { dbConnect } from './db.conect';
+import { dbConnect } from './db.connect';
 import mongoose from 'mongoose';
 
 test('Should be able to connect to the DB', async () => {
