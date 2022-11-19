@@ -47,20 +47,20 @@ describe('Given TapaRespository', () => {
         });
 
         test('Then post should have been called', async () => {
-            const newTapa = {
+            const newRobot = {
                 name: 'BB-8',
                 image: 'url',
                 speed: 9,
                 strength: 8,
                 creationDate: '16.11.2022',
             };
-            const result = await repository.post(newTapa);
-            expect(result.name).toEqual(newTapa.name);
+            const result = await repository.post(newRobot);
+            expect(result.name).toEqual(newRobot.name);
         });
 
         test('Then patch should have been called', async () => {
             expect(async () => {
-                await repository.patch(+testIds[0], { name: 'pepe' });
+                await repository.patch(testIds[0], { name: 'pepe' });
             }).rejects.toThrowError();
         });
 
@@ -71,7 +71,7 @@ describe('Given TapaRespository', () => {
 
         test('Then if the id is bad formated delete should throw an error', async () => {
             expect(async () => {
-                await repository.delete(2);
+                await repository.delete(1);
             }).rejects.toThrowError(mongoose.Error.CastError);
         });
     });
