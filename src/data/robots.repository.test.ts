@@ -1,4 +1,3 @@
-import { id } from './data';
 import mongoose from 'mongoose';
 import { dbConnect } from '../db.connect';
 import { RobotsRepository } from './robots.repository';
@@ -32,6 +31,7 @@ describe('Given TapaRespository', () => {
             const data = await repository.getModel().find();
             testIds = [data[0].id, data[1].id];
         });
+
         afterAll(() => {
             mongoose.disconnect();
         });
@@ -44,6 +44,12 @@ describe('Given TapaRespository', () => {
         test('Then get should have been called', async () => {
             const result = await repository.get(testIds[0]);
             expect(result.name).toEqual(mockData[0].name);
+        });
+
+        test('Then get should have been called', async () => {
+            expect(async () => {
+                await repository.get(testIds[11]);
+            }).rejects.toThrowError();
         });
 
         test('Then post should have been called', async () => {
@@ -59,8 +65,15 @@ describe('Given TapaRespository', () => {
         });
 
         test('Then patch should have been called', async () => {
+            const result = await repository.patch(testIds[0], {
+                name: 'Bender',
+            });
+            expect(result.name).toEqual(mockData[0].name);
+        });
+
+        test('Then patch should have been called', async () => {
             expect(async () => {
-                await repository.patch(testIds[0], { name: 'pepe' });
+                await repository.patch(testIds[11], { name: 'pepe' });
             }).rejects.toThrowError();
         });
 
@@ -69,7 +82,16 @@ describe('Given TapaRespository', () => {
             expect(result).toEqual({ id: testIds[0] });
         });
 
-        test('Then if the id is bad formated delete should throw an error', async () => {
+        /* Pasa la línea, pero no el test. Sale 'Not found id'.
+        test('Then delete should have been called', async () => {
+            await repository.delete(testIds[0]);
+            expect(async () => {
+                await repository.delete(testIds[0]);
+            }).rejects.toThrowError();
+        });
+        */
+
+        test('Then if the id is incorrectly formated delete should throw an error', async () => {
             expect(async () => {
                 await repository.delete(1);
             }).rejects.toThrowError(mongoose.Error.CastError);
