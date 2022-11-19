@@ -1,26 +1,28 @@
-/*
+import { id } from './data';
 import mongoose from 'mongoose';
-import { dbConnect } from '../db.conect';
-import { TapaRepository } from './tapas.repository';
+import { dbConnect } from '../db.connect';
+import { RobotsRepository } from './robots.repository';
 
 const mockData = [
     {
-        name: 'Ensaladilla rusa',
-        origin: 'Spanish',
-        ingredient: 'Potato',
-        tasted: true,
+        name: 'Bender',
+        image: 'url',
+        speed: 7,
+        strength: 5,
+        creationDate: '19.11.2022',
     },
     {
-        name: 'Morcilla',
-        origin: 'Spanish',
-        ingredient: 'Rice',
-        tasted: true,
+        name: 'Wall-e',
+        image: 'url',
+        speed: 8,
+        strength: 3,
+        creationDate: '20.11.2022',
     },
 ];
 
 describe('Given TapaRespository', () => {
     describe('When we instantiate it', () => {
-        const repository = new TapaRepository();
+        const repository = new RobotsRepository();
         let testIds: Array<string>;
 
         beforeAll(async () => {
@@ -38,37 +40,39 @@ describe('Given TapaRespository', () => {
             const result = await repository.getAll();
             expect(result[0].name).toEqual(mockData[0].name);
         });
-        test.skip('Then get should have been called', async () => {
-            const result = await repository.get(1);
-            expect(result.name).toEqual('Chorizo');
+
+        test('Then get should have been called', async () => {
+            const result = await repository.get(testIds[0]);
+            expect(result.name).toEqual(mockData[0].name);
         });
 
         test('Then post should have been called', async () => {
             const newTapa = {
-                name: 'Tortilla de patata',
-                origin: 'Spanish',
-                ingredient: 'Potato',
-                tasted: false,
+                name: 'BB-8',
+                image: 'url',
+                speed: 9,
+                strength: 8,
+                creationDate: '16.11.2022',
             };
             const result = await repository.post(newTapa);
             expect(result.name).toEqual(newTapa.name);
         });
 
-        test.skip('Then patch should have been called', async () => {
-            const result = await repository.patch(4, mockData[0]);
-            expect(result).toEqual(mockData);
+        test('Then patch should have been called', async () => {
+            expect(async () => {
+                await repository.patch(+testIds[0], { name: 'pepe' });
+            }).rejects.toThrowError();
         });
 
-        test.skip('Then delete should have been called', async () => {
-            const result = await repository.delete(2);
-            expect(result).toEqual([]);
+        test('Then delete should have been called', async () => {
+            const result = await repository.delete(testIds[0]);
+            expect(result).toEqual({ id: testIds[0] });
         });
 
-        test('Then if id is bad formated delete should throw an error', async () => {
+        test('Then if the id is bad formated delete should throw an error', async () => {
             expect(async () => {
                 await repository.delete(2);
             }).rejects.toThrowError(mongoose.Error.CastError);
         });
     });
 });
-*/
