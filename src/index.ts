@@ -1,5 +1,7 @@
 import http from 'http';
 import { app } from './app.js';
+import * as dotenv from 'dotenv';
+dotenv.config();
 import { CustomError } from './interfaces/error.js';
 import { dbConnect } from './db.connect.js';
 
