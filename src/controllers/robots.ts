@@ -22,7 +22,7 @@ export class RobotsController {
 
     async get(req: Request, resp: Response, next: NextFunction) {
         try {
-            const robot = await this.repository.get(+req.params.id);
+            const robot = await this.repository.get(req.params.id);
             resp.json({ robot });
         } catch (error) {
             next(this.#createHttpError(error as Error));
@@ -45,7 +45,7 @@ export class RobotsController {
 
     async patch(req: Request, resp: Response, next: NextFunction) {
         try {
-            const robot = await this.repository.patch(+req.params.id, req.body);
+            const robot = await this.repository.patch(req.params.id, req.body);
             resp.json({ robot });
         } catch (error) {
             next(this.#createHttpError(error as Error));
@@ -54,7 +54,7 @@ export class RobotsController {
 
     async delete(req: Request, resp: Response, next: NextFunction) {
         try {
-            await this.repository.delete(+req.params.id);
+            await this.repository.delete(req.params.id);
             resp.json({ id: req.params.id });
         } catch (error) {
             next(this.#createHttpError(error as Error));

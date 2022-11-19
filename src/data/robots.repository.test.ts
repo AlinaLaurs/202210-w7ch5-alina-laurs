@@ -46,6 +46,12 @@ describe('Given TapaRespository', () => {
             expect(result.name).toEqual(mockData[0].name);
         });
 
+        test('Then get should have been called', async () => {
+            expect(async () => {
+                await repository.get(testIds[11]);
+            }).rejects.toThrowError();
+        });
+
         test('Then post should have been called', async () => {
             const newRobot = {
                 name: 'BB-8',
@@ -59,8 +65,15 @@ describe('Given TapaRespository', () => {
         });
 
         test('Then patch should have been called', async () => {
+            const result = await repository.patch(testIds[0], {
+                name: 'Bender',
+            });
+            expect(result.name).toEqual(mockData[0].name);
+        });
+
+        test('Then patch should have been called', async () => {
             expect(async () => {
-                await repository.patch(testIds[0], { name: 'pepe' });
+                await repository.patch(testIds[11], { name: 'pepe' });
             }).rejects.toThrowError();
         });
 
@@ -69,7 +82,14 @@ describe('Given TapaRespository', () => {
             expect(result).toEqual({ id: testIds[0] });
         });
 
-        test('Then if the id is bad formated delete should throw an error', async () => {
+        test('Then delete should have been called', async () => {
+            await repository.delete(testIds[0]);
+            expect(async () => {
+                await repository.delete('');
+            }).rejects.toThrowError();
+        });
+
+        test('Then if the id is incorrectly formated delete should throw an error', async () => {
             expect(async () => {
                 await repository.delete(1);
             }).rejects.toThrowError(mongoose.Error.CastError);
