@@ -11,12 +11,7 @@ export class RobotsController {
             const robots = await this.repository.getAll();
             resp.json({ robots });
         } catch (error) {
-            const httpError = new HTTPError(
-                503,
-                'Service unavailable',
-                (error as Error).message
-            );
-            next(httpError);
+            next(this.#createHttpError(error as Error));
         }
     }
 
@@ -34,12 +29,7 @@ export class RobotsController {
             const robot = await this.repository.post(req.body);
             resp.json({ robot });
         } catch (error) {
-            const httpError = new HTTPError(
-                503,
-                'Service unavailable',
-                (error as Error).message
-            );
-            next(httpError);
+            next(this.#createHttpError(error as Error));
         }
     }
 
