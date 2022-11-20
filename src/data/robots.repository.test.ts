@@ -19,7 +19,7 @@ const mockData = [
     },
 ];
 
-describe('Given TapaRespository', () => {
+describe('Given RobotsRespository', () => {
     describe('When we instantiate it', () => {
         const repository = new RobotsRepository();
         let testIds: Array<string>;
@@ -82,7 +82,7 @@ describe('Given TapaRespository', () => {
             expect(result).toEqual({ id: testIds[0] });
         });
 
-        /* Pasa la línea, pero no el test. Sale 'Not found id'.
+        /* Pasa la línea, pero no el test. Sale 'Not found id', pero eso ya lo sabemos.
         test('Then delete should have been called', async () => {
             await repository.delete(testIds[0]);
             expect(async () => {

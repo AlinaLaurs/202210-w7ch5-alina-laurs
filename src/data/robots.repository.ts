@@ -56,10 +56,6 @@ export class RobotsRepository implements Data<Robot> {
         return { id: id };
     }
 
-    #disconnect() {
-        mongoose.disconnect();
-    }
-
     getModel() {
         return this.#Model;
     }
