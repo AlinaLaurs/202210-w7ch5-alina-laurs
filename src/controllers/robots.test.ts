@@ -72,11 +72,11 @@ describe('Given RobotController, some error happened', () => {
         error = new HTTPError(404, 'Not found id', 'message of error');
     });
 
-    RobotsRepository.prototype.getAll = jest.fn().mockResolvedValue(['Robot']);
-    RobotsRepository.prototype.get = jest.fn().mockResolvedValue(['Robot']);
-    RobotsRepository.prototype.post = jest.fn().mockResolvedValue(['Robot']);
-    RobotsRepository.prototype.patch = jest.fn().mockResolvedValue(['Robot']);
-    RobotsRepository.prototype.delete = jest.fn().mockResolvedValue(['Robot']);
+    RobotsRepository.prototype.getAll = jest.fn().mockRejectedValue(['Robot']);
+    RobotsRepository.prototype.get = jest.fn().mockRejectedValue(['Robot']);
+    RobotsRepository.prototype.post = jest.fn().mockRejectedValue(['Robot']);
+    RobotsRepository.prototype.patch = jest.fn().mockRejectedValue(['Robot']);
+    RobotsRepository.prototype.delete = jest.fn().mockRejectedValue(['Robot']);
 
     const repository = new RobotsRepository();
     const robotsController = new RobotsController(repository);
