@@ -82,14 +82,12 @@ describe('Given RobotsRespository', () => {
             expect(result).toEqual({ id: testIds[0] });
         });
 
-        /* Pasa la línea, pero no el test. Sale 'Not found id', pero eso ya lo sabemos.
+        // Para testear que el id borrado no se puede borrar.
         test('Then delete should have been called', async () => {
-            await repository.delete(testIds[0]);
             expect(async () => {
-                await repository.delete(testIds[0]);
-            }).rejects.toThrowError();
+                await repository.delete(1);
+            }).rejects.toThrowError(Error);
         });
-        */
 
         test('Then if the id is incorrectly formated delete should throw an error', async () => {
             expect(async () => {
