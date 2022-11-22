@@ -4,7 +4,7 @@ import { passwdEncrypt } from '../services/auth.js';
 import { BasicRepo, id } from './repo.js';
 
 export class UserRepository implements BasicRepo<User> {
-    #Model = model('Coffee', userSchema, 'coffees');
+    #Model = model('User', userSchema, 'users');
 
     async get(id: id): Promise<User> {
         const result = await this.#Model.findById(id); //as User;
@@ -13,7 +13,6 @@ export class UserRepository implements BasicRepo<User> {
     }
 
     async post(data: Partial<User>): Promise<User> {
-        // ESTO HACE REGISTER
         if (typeof data.passwd !== 'string') throw new Error('');
         data.passwd = await passwdEncrypt(data.passwd);
         const result = await this.#Model.create(data);
