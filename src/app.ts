@@ -3,6 +3,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import { CustomError } from './interfaces/error.js';
 import { robotsRouter } from './router/robots.js';
+import { usersRouter } from './router/users.js';
 
 export const app = express();
 app.disable('x-powered-by');
@@ -26,6 +27,7 @@ app.get('/', (_req, res) => {
 });
 
 app.use('/robots', robotsRouter);
+app.use('/users', usersRouter);
 
 app.use(
     (error: CustomError, _req: Request, resp: Response, next: NextFunction) => {
