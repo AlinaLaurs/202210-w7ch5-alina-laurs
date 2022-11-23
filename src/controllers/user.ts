@@ -1,16 +1,18 @@
+import { Robot } from './../entities/robot';
 import { NextFunction, Request, Response } from 'express';
 import { User } from '../entities/user.js';
 import { HTTPError } from '../interfaces/error.js';
-import { BasicRepo } from '../repositories/repo.js';
-import { createToken, passwdValidate } from '../services/auth.js';
-
+import { BasicRepo, Repo } from '../auth/repositories/repo.js';
+import { createToken, passwdValidate } from '../auth/services/auth.js';
 export class UserController {
-    constructor(public readonly repository: BasicRepo<User>) {
-        //
-    }
+    constructor(
+        public readonly repository: BasicRepo<User>,
+        public readonly robotRepo: Repo<Robot>
+    ) {}
 
     async register(req: Request, resp: Response, next: NextFunction) {
         try {
+            console.log(req.body);
             const user = await this.repository.post(req.body);
             resp.json({ user });
         } catch (error) {
@@ -31,7 +33,11 @@ export class UserController {
                 user.passwd
             );
             if (!isPasswdValid) throw new Error();
-            const token = createToken({ userName: user.name });
+            const token = createToken({
+                id: user.name,
+                name: user.name,
+                role: user.role,
+            });
             resp.json({ token });
         } catch (error) {
             next(this.#createHttpError(error as Error));
