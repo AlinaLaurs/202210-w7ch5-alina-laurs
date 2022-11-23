@@ -1,10 +1,11 @@
-import { Schema } from 'mongoose';
+import { Schema, Types } from 'mongoose';
 
 export type ProtoUser = {
     name?: string;
     email?: string;
     passwd?: string;
     role?: string;
+    robots?: Array<Types.ObjectId>;
 };
 
 export type User = {
@@ -13,9 +14,10 @@ export type User = {
     email: string;
     passwd: string;
     role: string;
+    robots: Array<Types.ObjectId>;
 };
 
-export const userSchema = new Schema({
+export const userSchema = new Schema<User>({
     name: {
         type: String,
         required: true,
@@ -24,6 +26,12 @@ export const userSchema = new Schema({
     email: String,
     passwd: String,
     role: String,
+    robots: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Robots',
+        },
+    ],
 });
 
 userSchema.set('toJSON', {

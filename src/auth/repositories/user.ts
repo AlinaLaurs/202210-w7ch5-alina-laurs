@@ -1,9 +1,17 @@
 import { model } from 'mongoose';
-import { User, userSchema } from '../entities/user.js';
+import { User, userSchema } from '../../entities/user.js';
 import { passwdEncrypt } from '../services/auth.js';
 import { BasicRepo, id } from './repo.js';
 
 export class UserRepository implements BasicRepo<User> {
+    static instance: UserRepository;
+
+    public static getInstance(): UserRepository {
+        if (!UserRepository.instance) {
+            UserRepository.instance = new UserRepository();
+        }
+        return UserRepository.instance;
+    }
     #Model = model('User', userSchema, 'users');
 
     async get(id: id): Promise<User> {
@@ -19,8 +27,7 @@ export class UserRepository implements BasicRepo<User> {
         return result as User;
     }
 
-    async find(search: any): Promise<User> {
-        console.log(search);
+    async find(search: { [key: string]: string }): Promise<User> {
         const result = await this.#Model.findOne(search); //as User;
         if (!result) throw new Error('Not found id');
         return result as unknown as User;

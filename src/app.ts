@@ -4,6 +4,8 @@ import morgan from 'morgan';
 import { CustomError } from './interfaces/error.js';
 import { robotsRouter } from './router/robots.js';
 import { usersRouter } from './router/users.js';
+import { errorManager } from './auth/middlewares/errors.js';
+import { setCors } from './auth/middlewares/cors.js';
 
 export const app = express();
 app.disable('x-powered-by');
@@ -16,11 +18,7 @@ app.use(morgan('dev'));
 app.use(cors(corsOptions));
 app.use(express.json());
 
-app.use((req, res, next) => {
-    const origin = req.header('Origin') || '*';
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    next();
-});
+app.use(setCors);
 
 app.get('/', (_req, res) => {
     res.send('API de robots. Escribe «/robots» para ver la API.').end();
@@ -29,17 +27,4 @@ app.get('/', (_req, res) => {
 app.use('/robots', robotsRouter);
 app.use('/users', usersRouter);
 
-app.use(
-    (error: CustomError, _req: Request, resp: Response, next: NextFunction) => {
-        let status = error.statusCode || 500;
-        if (error.name === 'ValidationError') {
-            status = 406;
-        }
-        const result = {
-            status: status,
-            type: error.name,
-            error: error.message,
-        };
-        resp.status(status).json(result).end();
-    }
-);
+app.use(errorManager);
