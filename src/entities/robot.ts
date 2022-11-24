@@ -1,7 +1,7 @@
-import { Schema, Types } from 'mongoose';
+import { Schema, Types, model } from 'mongoose';
 
-export type Robot = {
-    id: string;
+export type RobotI = {
+    id: Types.ObjectId;
     name: string;
     image: string;
     speed: number;
@@ -10,7 +10,7 @@ export type Robot = {
     owner: Types.ObjectId;
 };
 
-export type ProtoRobot = {
+export type ProtoRobotI = {
     name?: string;
     image?: string;
     speed?: number;
@@ -19,7 +19,7 @@ export type ProtoRobot = {
     owner?: Types.ObjectId;
 };
 
-export const robotSchema = new Schema<Robot>({
+export const robotSchema = new Schema<RobotI>({
     name: {
         type: String,
         required: true,
@@ -45,4 +45,4 @@ robotSchema.set('toJSON', {
     },
 });
 
-// export const Robot = model<Robot>('Robot', robotSchema, 'robots');
+export const Robot = model<RobotI>('Robot', robotSchema, 'robots');

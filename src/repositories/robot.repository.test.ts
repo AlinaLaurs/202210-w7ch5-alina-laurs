@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { dbConnect } from '../db.connect';
-import { RobotsRepository } from './robots.repository';
+import { RobotRepository } from './robot.repository';
 
 const mockData = [
     {
@@ -21,7 +21,7 @@ const mockData = [
 
 describe('Given RobotsRespository', () => {
     describe('When we instantiate it', () => {
-        const repository = new RobotsRepository();
+        const repository = RobotRepository.getInstance();
         let testIds: Array<string>;
 
         beforeAll(async () => {

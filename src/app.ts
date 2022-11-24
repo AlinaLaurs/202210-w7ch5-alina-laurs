@@ -1,11 +1,10 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import { CustomError } from './interfaces/error.js';
 import { robotsRouter } from './router/robots.js';
 import { usersRouter } from './router/users.js';
-import { errorManager } from './auth/middlewares/errors.js';
-import { setCors } from './auth/middlewares/cors.js';
+import { errorManager } from './middlewares/errors.js';
+import { setCors } from './middlewares/cors.js';
 
 export const app = express();
 app.disable('x-powered-by');
