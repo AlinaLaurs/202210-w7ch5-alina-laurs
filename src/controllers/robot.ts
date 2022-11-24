@@ -1,14 +1,14 @@
-import { ExtraRequest } from './../auth/middlewares/interceptors';
-import { User } from './../entities/user';
-import { BasicRepo } from './../auth/repositories/repo';
 import { NextFunction, Request, Response } from 'express';
-import { Data } from '../data/data.js';
-import { Robot } from '../entities/robot.js';
+import { Repo } from '../repositories/repo.js';
+import { RobotI } from '../entities/robot.js';
+import { UserI } from '../entities/user.js';
 import { HTTPError } from '../interfaces/error.js';
-export class RobotsController {
+import { ExtraRequest } from '../middlewares/interceptors.js';
+
+export class RobotController {
     constructor(
-        public repository: Data<Robot>,
-        public userRepo: BasicRepo<User>
+        public readonly repository: Repo<RobotI>,
+        public readonly userRepo: Repo<UserI>
     ) {}
 
     async getAll(req: Request, resp: Response, next: NextFunction) {
@@ -29,7 +29,7 @@ export class RobotsController {
         }
     }
 
-    async post(req: Request, resp: Response, next: NextFunction) {
+    async post(req: ExtraRequest, resp: Response, next: NextFunction) {
         try {
             if (!req.payload) {
                 throw new Error('Invalid payload');
